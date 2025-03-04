@@ -1,1 +1,26 @@
-<p>user-list works!</p>,
+<div
+  class="container max-w-7xl mx-auto"
+  [ngClass]="isLoading() ? loadingContainerClasses : []"
+>
+  @if(isLoading()) {
+  <div class="flex flex-col items-center gap-2">
+    <mat-spinner [diameter]="40"></mat-spinner>
+    <p>Cargando...</p>
+  </div>
+
+  } @else {
+<div class="min-h-[60vh]">
+    <div class="grid mb-40 mt-20 lg:grid-cols-4 md:grid-cols-2 gap-5">
+        @for (user of paginatedUsers; track user.id; let i = $index) {
+            <app-user-card [user]="user" />
+        }
+    </div>
+</div>
+  <mat-paginator
+    [length]="users.length"
+    [pageSize]="pageSize"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+  }
+</div>
