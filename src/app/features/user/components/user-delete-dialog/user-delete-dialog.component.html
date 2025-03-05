@@ -4,6 +4,9 @@
     Estás a punto de borrar a {{ user | fullname }}. Esta acción no se puede
     deshacer
   </p>
+  @if(error) {
+    <p class="text-red-500 text-sm">Error al borrar el usuario: {{ error }}</p>
+  }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button

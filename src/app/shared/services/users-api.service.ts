@@ -29,7 +29,7 @@ export class UsersApiService {
   }
 
   /**
-   * Hace un fecth al endpoint de usuarios
+   * Crea un nuevo usuario
    *
    * @param user Objeto parcial del usuario dado que la asignación del ID es posterior
    * 
@@ -38,13 +38,31 @@ export class UsersApiService {
 
   async createUser(user:Partial<IUser>):Promise<IUser | ApiError> {
     try {
-       const resp = await axios.post<IUser>(`${this._apiurl}/api/users`, user) 
+       const resp = await axios.post<IUser | ApiError>(`${this._apiurl}/api/users`, user) 
+       console.log(resp.data);
        return resp.data;
     } catch (error) {
         console.log(error);
         return { error: error as string };
     }
+  }
 
+  /**
+   * Actualiza la data del usuario
+   *
+   * @param user Objeto parcial del usuario con las propiedades a actualizar
+   * 
+   * @returns El usuario actualizado o un error
+   */
+
+  async updateUser(_id:string, user:Partial<IUser>):Promise<IUser | ApiError> {
+    try {
+       const resp = await axios.put<IUser | ApiError>(`${this._apiurl}/api/users/${_id}`, user) 
+       return resp.data;
+    } catch (error) {
+        console.log(error);
+        return { error: error as string };
+    }
   }
 
   /**

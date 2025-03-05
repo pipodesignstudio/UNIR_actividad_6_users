@@ -12,7 +12,9 @@ import { NamePipe } from "../../pipes/user-fullname.pipe";
 import {MatButtonModule} from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsersApiService } from '../../../../shared/services/users-api.service';
-import { UserDeleteSnackbarComponent } from '../user-delete-snackbar/user-delete-snackbar.component';
+import { ApiError } from '../../../../shared/interfaces/api-error.interface';
+import { IUser } from '../../../../shared/interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-delete-dialog',
@@ -27,14 +29,16 @@ export class UserDeleteDialogComponent {
   private userService = inject(UsersApiService);
   private dialog = inject(MatDialog);
   private container = inject(MatDialogContainer);
+  private router = inject(Router);
 
   public isDeleting = signal<boolean>(false);
+  public error: ApiError | null = null;
 
 
   durationInSeconds = 5;
 
   openSnackBar() {
-    this.snackBar.openFromComponent(UserDeleteSnackbarComponent, {
+    this.snackBar.open('❌ Usuario borrado correctamente', 'Cerrar', {
       duration: this.durationInSeconds * 1000,
     });
   }
@@ -43,8 +47,19 @@ export class UserDeleteDialogComponent {
     this.dialog.getDialogById(this.container._config.id ?? '')?.close();
   }
 
-  onDelete() {
-    setTimeout(( ) => this.close(), 1000)
+  async onDelete() {
+    this.isDeleting.set(true);
+    const resp:IUser | ApiError = await this.userService.deleteUserById(this.user._id);
+    if ('error' in resp) { 
+      this.error = resp;
+      this.isDeleting.set(false);
+      return;
+    } else {
+      this.openSnackBar();
+      this.close();
+      this.isDeleting.set(false);
+      this.router.navigate(['/']);  
+    }
   }
 
  }
