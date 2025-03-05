@@ -13,7 +13,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PageEvent } from '@angular/material/paginator';
-import { UserCardComponent } from "../../user-card/user-card.component";
+import { UserCardComponent } from "../user-card/user-card.component";
+import {
+  MatDialog,
+} from '@angular/material/dialog';
+import { UserDeleteDialogComponent } from '../user-delete-dialog/user-delete-dialog.component';
 
 @Component({
   selector: 'app-user-list',
@@ -35,6 +39,7 @@ export class UserListComponent implements OnInit {
   public paginatedUsers: IUser[] = []; // Variable donde almaceno los users de la página
 
   private userService = inject(UsersApiService);
+  private dialog = inject(MatDialog);
 
   public isLoading = signal<boolean>(true);
 
@@ -72,4 +77,11 @@ export class UserListComponent implements OnInit {
     this.currentPage = event.pageIndex;
     this.updatePaginatedUsers();
   }
+
+  onUserDelete(event:IUser) {
+    this.dialog.open(UserDeleteDialogComponent, {
+      data: event
+    })
+  }
+
 }

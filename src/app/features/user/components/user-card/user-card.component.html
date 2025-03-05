@@ -1,16 +1,21 @@
-<div class="rounded-md shadow-md border border-gray-200 bg-white pt-6">
+<div
+  class="card pt-6 hover:scale-105 hover:shadow-2xl transition-all ease-in-out group"
+>
   <div class="flex flex-col justify-center items-center gap-3">
     <img
       [src]="user.image"
       alt="User Avatar"
-      class="w-20 h-20 rounded-full object-cover"
+      class="w-20 h-20 rounded-full object-cover group-hover:w-22 group-hover:h-22 group-hover:shadow-md transition-all ease-in-out"
     />
-    <p class="text-sm text-ellipsis max-w-xs">{{ user | fullname }}</p>
+    <p class="text-sm font-medium text-ellipsis max-w-xs">
+      {{ user | fullname }}
+    </p>
   </div>
   <div
     class="grid grid-cols-3 px-0 w-full justify-around border-t border-slate-200 mt-6"
   >
     <button
+      routerLink="/user/{{ user._id }}"
       class="flex flex-col items-center justify-center p-2.5 w-full text-blue-700 border-r cursor-pointer border-slate-200"
       matRipple
       [matRippleColor]="'rgba(209, 224, 255, 0.2)'"
@@ -19,6 +24,7 @@
       <p class="text-sm whitespace-nowrap">Ver detalle</p>
     </button>
     <button
+      [routerLink]="['/updateuser', user._id]"
       class="flex flex-col items-center justify-center p-2.5 w-full text-blue-700 border-r cursor-pointer border-slate-200"
       matRipple
       [matRippleColor]="'rgba(209, 224, 255, 0.2)'"
@@ -29,6 +35,7 @@
     <button
       class="flex flex-col items-center justify-center p-2.5 w-full cursor-pointer text-red-700"
       matRipple
+      (click)="handleDeleteEvent()"
       [matRippleColor]="'rgba(254, 205, 202, 0.2)'"
     >
       <mat-icon>delete</mat-icon>

@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { UserListComponent } from './features/user/components/user-list/user-list.component';
 import { UserDetailComponent } from './features/user/components/user-detail/user-detail.component';
-import { UserCreateComponent } from './features/user/components/user-create/user-create.component';
 import { PageLayoutComponent } from './shared/layout/page-layout/page-layout.component';
+import { UserCreateOrUpdateComponent } from './features/user/components/user-create-or-update/user-create-or-update.component';
 
 export const routes: Routes = [
     {
@@ -14,16 +14,16 @@ export const routes: Routes = [
           component: UserListComponent
         },
         {
-          path: 'user/:id',
+          path: 'user/:_id',
           component: UserDetailComponent
         },
         {
           path: 'newuser',
-          component: UserCreateComponent
+          component: UserCreateOrUpdateComponent
         },
         {
-          path: 'updateuser/:id',
-          component: UserCreateComponent
+          path: 'updateuser/:_id',
+          component: UserCreateOrUpdateComponent
         },
         {
           path: '',

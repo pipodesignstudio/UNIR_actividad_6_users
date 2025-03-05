@@ -3,3 +3,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.card {
+    @apply shadow-md rounded-lg bg-white border border-slate-200;
+}
+
+button {
+    @apply cursor-pointer;
+}

@@ -20,9 +20,7 @@ export class UsersApiService {
         `${this._apiurl}/api/users`
       );
       const resData = resp.data;
-      console.log(resData)
       const users = resData.results;
-      console.log(users);
       return users;
     } catch (error) {
       console.log(error);
@@ -47,6 +45,40 @@ export class UsersApiService {
         return { error: error as string };
     }
 
+  }
+
+  /**
+   * Hace un fecth al endpoint de usuario por id
+   *
+   * @param id Id del usuario a consultar. Se require en string porque se recupera de la ruta
+   * @returns Usuario encontrado o error si no existe
+   */
+
+  async getUserById(id: string): Promise<IUser | ApiError> { 
+    try {
+      const resp = await axios.get<IUser | ApiError>(`${this._apiurl}/api/users/${id}`);
+      return resp.data;
+    } catch (error) {
+      console.log(error);
+      return {error: error as string };
+    }
+  }
+
+  /**
+   * Recibe un id del usuario y lo borra con el método DELETE
+   *
+   * @param id Id del usuario a borrar
+   * @returns Usuario borrado o error si no se ha podido procesar
+   */
+
+  async deleteUserById(id: string): Promise<IUser | ApiError> { 
+    try {
+      const resp = await axios.delete<IUser | ApiError>(`${this._apiurl}/api/users/${id}`);
+      return resp.data;
+    } catch (error) {
+      console.log(error);
+      return {error: error as string };
+    }
   }
 
 
