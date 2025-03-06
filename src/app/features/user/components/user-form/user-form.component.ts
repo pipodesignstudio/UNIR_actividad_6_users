@@ -34,7 +34,7 @@ export class UserFormComponent implements OnInit{
   public userForm = this.fb.group({
     first_name: ['', [Validators.required, Validators.minLength(3)]],
     last_name: ['', [Validators.required, Validators.minLength(3)]],
-    username: ['', [Validators.required, Validators.minLength(3)]],
+    username: ['', [Validators.required, Validators.minLength(6)]],
     email: ['', [Validators.required, Validators.email]],
     image: ['', [Validators.required]]
   });
@@ -95,6 +95,9 @@ export class UserFormComponent implements OnInit{
         this.snackBar.open('✅ Usuario actualizado con éxito', 'Cerrar', { duration: 2000 });
       }
     } else {
+      // Se finge una password ficticia para "primer inicio de sesión"
+      // En un flujo se mandaría un email de confirmación con la contraseña y pidiendo update en primer inicio de sesión
+      // Alt: permitir establecer password en el formulario
       const partialUser = {password: `UNIR_${Math.random()}`, ...bodyRequest}
       const resp = await this.userService.createUser(partialUser);
       if ('error' in resp) { 
@@ -102,7 +105,7 @@ export class UserFormComponent implements OnInit{
         this.snackBar.open('❌ Error al crear el usuario', 'Cerrar', { duration: 2000 });
       } else {
         this.router.navigate(['/']);
-        this.snackBar.open('✅ Usuario creado con éxito', 'Cerrar', { duration: 2000 });
+        this.snackBar.open(`✅ Usuario creado con ID ${resp.id}`, 'Cerrar', { duration: 4000 });
       }
     }
   }
